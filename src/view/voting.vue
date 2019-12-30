@@ -164,12 +164,16 @@ export default {
         case 2:
           this.votes.queen = this.selectedVote;
           this.selectedVote = "";
-          this.selectionList = this.maleList;
+          this.selectionList = this.maleList.filter(
+            male => this.votes.king.id != male.id
+          );
           break;
         case 3:
           this.votes.popular = this.selectedVote;
           this.selectedVote = "";
-          this.selectionList = this.femaleList;
+          this.selectionList = this.femaleList.filter(
+            female => this.votes.queen.id != female.id
+          );
           break;
         case 4:
           this.votes.innocent = this.selectedVote;
