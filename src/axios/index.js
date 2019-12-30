@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://kaunghtut.cyberwings.asia/kqvoting/api/'
+    baseURL: 'https://cloud.kaunghtut.com/api/'
 });
 
 export default instance;

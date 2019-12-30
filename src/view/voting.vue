@@ -1,15 +1,9 @@
 <template>
   <v-container>
     <v-stepper v-model="e1">
-      <v-stepper-header>
+      <v-stepper-header class="elevation-0">
         <template v-for="n in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="e1> n"
-            :step="n"
-            editable
-            color="black"
-          >Step {{ n }}</v-stepper-step>
+          <v-stepper-step :key="`${n}-step`" :complete="e1> n" :step="n" color="black">Step {{ n }}</v-stepper-step>
 
           <v-divider v-if="n !== steps" :key="n"></v-divider>
         </template>
@@ -20,11 +14,11 @@
           <v-card class="mb-12" elevation="0">
             <v-card-title>{{ voteFeature[n-1] }}</v-card-title>
             <v-card-content>
-              <v-list-item-group v-model="selectedVote" mandatory>
+              <v-list-item-group v-model="selectedVote">
                 <v-list-item
                   v-for="selection in selectionList"
                   :key="selection.id"
-                  :value="selection.id"
+                  :value="selection"
                 >
                   <template v-slot:default="{ active, toggle }">
                     <v-list-item-action>
@@ -44,16 +38,40 @@
             </v-card-content>
           </v-card>
 
-          <v-btn color="black" @click="nextStep(n)" dark outlined>Continue</v-btn>
-
-          <v-btn text>Cancel</v-btn>
+          <v-btn
+            color="black"
+            :disabled="!selectedVote"
+            @click="nextStep(n)"
+            outlined
+          >{{n==4?'Finish':'Continue'}}</v-btn>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Confim Votes</v-card-title>
+        <v-card-text>
+          King: {{votes.king.name}}
+          <br />
+          Queen: {{votes.queen.name}}
+          <br />
+          Popular: {{votes.popular.name}}
+          <br />
+          innocent: {{votes.innocent.name}}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+          <v-btn color="green darken-1" text @click="saveVote()">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
 import { selectionServices } from "../services/selection-service";
+import { voteService } from "../services/vote-service";
+
 export default {
   data: () => ({
     voteFeature: ["KING", "QUEEN", "POPULAR", "INNOCENT"],
@@ -76,13 +94,16 @@ export default {
         class: "5CS-1"
       }
     ],
+    maleList: [],
+    femaleList: [],
     selectedVote: "",
     votes: {
       king: "",
       queen: "",
       popular: "",
       innocent: ""
-    }
+    },
+    dialog: false
   }),
   mounted() {
     this.getSelectionList();
@@ -103,24 +124,57 @@ export default {
           // eslint-disable-next-line
           console.log("youk lar", this.selectionList);
         })
+        .then(() => {
+          this.maleList = this.selectionList.filter(
+            selection => selection.sex === "male"
+          );
+          this.femaleList = this.selectionList.filter(
+            selection => selection.sex === "female"
+          );
+          this.selectionList = this.maleList;
+        })
         .catch(err => {
           // eslint-disable-next-line
           console.log(err);
         });
     },
+    saveVote() {
+      this.dialog = false;
+      let _vote = {
+        ip: "1",
+        vote_details: [
+          { selection_id: this.votes.king.id, choices: "king" },
+          { selection_id: this.votes.queen.id, choices: "queen" },
+          { selection_id: this.votes.popular.id, choices: "popular" },
+          { selection_id: this.votes.innocent.id, choices: "innocent" }
+        ]
+      };
+      voteService.saveVote(_vote).then(res => {
+        // eslint-disable-next-line
+        console.log(res);
+      });
+    },
     nextStep(n) {
       switch (n) {
         case 1:
           this.votes.king = this.selectedVote;
+          this.selectedVote = "";
+          this.selectionList = this.femaleList;
           break;
         case 2:
           this.votes.queen = this.selectedVote;
+          this.selectedVote = "";
+          this.selectionList = this.maleList;
           break;
         case 3:
           this.votes.popular = this.selectedVote;
+          this.selectedVote = "";
+          this.selectionList = this.femaleList;
           break;
         case 4:
           this.votes.innocent = this.selectedVote;
+          this.selectedVote = "";
+          this.dialog = true;
           break;
 
         default:
