@@ -3,8 +3,12 @@
     <v-stepper v-model="e1">
       <v-stepper-header class="elevation-0">
         <template v-for="n in steps">
-          <v-stepper-step :key="`${n}-step`" :complete="e1> n" :step="n" color="black">Step {{ n }}</v-stepper-step>
-
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="e1> n"
+            :step="n"
+            color="primary"
+          >{{ voteFeature[n-1] }}</v-stepper-step>
           <v-divider v-if="n !== steps" :key="n"></v-divider>
         </template>
       </v-stepper-header>
@@ -27,7 +31,7 @@
 
                     <v-list-item-content>
                       <v-list-item-title>{{selection.name}}</v-list-item-title>
-                      <v-list-item-subtitle>{{ selection.gender }}</v-list-item-subtitle>
+                      <v-list-item-subtitle>{{ selection.class }}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-avatar>
                       <v-img src="@/assets/lisa.jpg"></v-img>
@@ -61,7 +65,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+          <v-btn color="green darken-1" text @click="reVote">Revote</v-btn>
           <v-btn color="green darken-1" text @click="saveVote()">Agree</v-btn>
         </v-card-actions>
       </v-card>
@@ -77,23 +81,7 @@ export default {
     voteFeature: ["KING", "QUEEN", "POPULAR", "INNOCENT"],
     e1: 1,
     steps: 4,
-    selectionList: [
-      {
-        id: 11,
-        name: "Kaung Htut",
-        class: "5CS-23"
-      },
-      {
-        id: 22,
-        name: "Hein Htet",
-        class: "5CS-22"
-      },
-      {
-        id: 33,
-        name: "Kaung Myat",
-        class: "5CS-1"
-      }
-    ],
+    selectionList: [],
     maleList: [],
     femaleList: [],
     selectedVote: "",
@@ -128,9 +116,27 @@ export default {
           this.maleList = this.selectionList.filter(
             selection => selection.sex === "male"
           );
+          this.maleList.sort(function(a, b) {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
           this.femaleList = this.selectionList.filter(
             selection => selection.sex === "female"
           );
+          this.femaleList.sort(function(a, b) {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
           this.selectionList = this.maleList;
         })
         .catch(err => {
@@ -153,6 +159,11 @@ export default {
         // eslint-disable-next-line
         console.log(res);
       });
+    },
+    reVote: function() {
+      this.dialog = false;
+      this.e1 = 1;
+      this.selectionList = this.maleList;
     },
     nextStep(n) {
       switch (n) {

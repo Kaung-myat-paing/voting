@@ -1,26 +1,34 @@
 <template>
   <v-container>
     <v-row>
-      <transition name="fadeOne">
-        <div v-show="show" class="container">
-          <p class="One">Fresher Welcome</p>
-        </div>
-      </transition>
-      <transition name="fadeTwo">
-        <div v-show="show" class="container">
-          <p class="Two">2019-2020</p>
-        </div>
-      </transition>
-    </v-row>
-    <v-row align="center" justify="center">
+      <v-col cols="12">
+        <v-row justify="center">
+          <div>
+            <v-img src="@/assets/unilogo.png" width="75"></v-img>
+          </div>
+        </v-row>
+        <v-row justify="center">
+          <span class="_title">University of Computer Studies (Maubin)</span>
+        </v-row>
+      </v-col>
       <v-col cols="12">
         <v-card>
-          <v-card-title class="headline"></v-card-title>
-
-          <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
-
+          <v-row>
+            <transition name="fadeOne">
+              <div v-show="show" class="container">
+                <p class="One">Fresher Welcome (2019-2020)</p>
+                <p class="Two"></p>
+              </div>
+            </transition>
+            <!-- <transition name="fadeTwo">
+              <div v-show="show" class="container">
+                <p class="Two">2019-2020</p>
+              </div>
+            </transition>-->
+          </v-row>
+          <v-img src="@/assets/gp.jpg"></v-img>
           <v-card-actions>
-            <v-btn text outlined to="/voting">Vote Now</v-btn>
+            <v-btn  outlined to="/voting">Vote Now</v-btn>
             <v-btn outlined to="/selection">Explore Selections</v-btn>
           </v-card-actions>
         </v-card>
@@ -36,9 +44,7 @@ export default {
   mounted() {
     this.show = true;
   },
-  methods: {
-    
-  }
+  methods: {}
 };
 </script>
 
@@ -48,10 +54,15 @@ export default {
 }
 p {
   text-align: center;
-  font-size: 40px;
+  font-size: 20px;
   overflow: hidden;
-  color: #4dba87;
   margin: 1px;
+}
+
+._title {
+  text-align: center;
+  font-size: 30px;
+  color: #00718e;
 }
 
 .Two {

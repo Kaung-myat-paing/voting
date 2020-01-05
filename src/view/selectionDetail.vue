@@ -16,8 +16,8 @@
         </div>
       </v-img>
     </v-card>-->
-    <v-card class="mx-auto">
-      <v-img height="100%" src="@/assets/gu gu.jpg">
+    <v-card class="mx-auto" max-width="434" tile>
+      <v-img src="@/assets/ts.jpg" aspect-ratio="0.9">
         <div class="fill-height bottom-gradient">
           <v-row align="end" class="fill-height">
             <v-col class="py-0">
@@ -53,9 +53,9 @@
         <vue-feedback-reaction emojiWidth="32px" emojiHeight="32px" v-model="feedback" />
       </v-card-text>
 
-      <v-card-actions>
+      <!-- <v-card-actions>
         <v-btn color="deep-purple accent-4" text @click="reserve">Reserve</v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
     <v-card class="mx-auto">
       <v-system-bar lights-out></v-system-bar>
