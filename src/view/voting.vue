@@ -91,10 +91,14 @@ export default {
       popular: "",
       innocent: ""
     },
-    dialog: false
+    dialog: false,
+    qrDetail: []
   }),
   mounted() {
     this.getSelectionList();
+    this.qrDetail = JSON.parse(localStorage.getItem("qr"));
+     // eslint-disable-next-line
+    console.log(this.qrDetail);
   },
   watch: {
     steps(val) {
@@ -109,8 +113,6 @@ export default {
         .getSelections()
         .then(res => {
           this.selectionList = res.data;
-          // eslint-disable-next-line
-          console.log("youk lar", this.selectionList);
         })
         .then(() => {
           this.maleList = this.selectionList.filter(

@@ -35,6 +35,7 @@
 </template>
 <script>
 import { QrcodeStream, QrcodeCapture } from "vue-qrcode-reader";
+import { qrCheckService } from "../services/qrCheck-service";
 export default {
   components: { QrcodeStream, QrcodeCapture },
   data() {
@@ -42,19 +43,19 @@ export default {
       tabs: null,
       result: "",
       camera: "auto",
-      noStreamApiSupport: false
+      isAuthenticated: false
     };
   },
 
   methods: {
     async onDecode(content) {
       this.result = content;
-      this.turnCameraOff();
+      // this.$router.push("/selection/" + item.id);
 
+      this.result = content;
+      this.turnCameraOff(content);
       // pretend it's taking really long
       await this.timeout(3000);
-      this.isValid = content.startsWith("http");
-
       // some more delay, so users have time to read the message
       await this.timeout(2000);
 
@@ -65,8 +66,33 @@ export default {
       this.camera = "auto";
     },
 
-    turnCameraOff() {
+    turnCameraOff(content) {
       this.camera = "off";
+
+      var qr = {
+        ip: content
+      };
+      // eslint-disable-next-line
+      console.log("win lar", qr);
+
+      qrCheckService
+        .qrCheck(qr)
+        .then(res => {
+          // eslint-disable-next-line
+          console.log("done", res.data);
+          this.isAuthenticated = res.data;
+          if (this.isAuthenticated == true) {
+            if (typeof Storage !== "undefined")
+              localStorage.setItem("qr", content);
+            this.$router.push("/voting");
+          }else {
+            alert(res.data)
+          }
+        })
+        .catch(err => {
+          // eslint-disable-next-line
+          console.log("err", err);
+        });
     },
 
     timeout(ms) {
