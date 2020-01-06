@@ -28,7 +28,7 @@
           </v-row>
           <v-img src="@/assets/gp.jpg"></v-img>
           <v-card-actions>
-            <v-btn  outlined to="/voting">Vote Now</v-btn>
+            <v-btn outlined to="/qrScan">Vote Now</v-btn>
             <v-btn outlined to="/selection">Explore Selections</v-btn>
           </v-card-actions>
         </v-card>

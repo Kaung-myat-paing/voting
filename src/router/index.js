@@ -28,6 +28,11 @@ const routes = [
         name: 'about us',
         component: () => import("../view/aboutUs.vue")
     },
+    {
+        path: '/qrScan',
+        name: 'qrReader',
+        component: () => import("../components/Qrcheck.vue")
+    }
 
 
 ]
