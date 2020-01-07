@@ -8,24 +8,27 @@
           </div>
         </v-row>
         <v-row justify="center">
-          <span class="_title">University of Computer Studies (Maubin)</span>
+          <!-- <span class="_title">University of Computer Studies (Maubin)</span> -->
+          <transition name="fadeOne">
+            <div v-show="show">
+              <span class="_title">University of Computer Studies (Maubin)</span>
+            </div>
+          </transition>
         </v-row>
       </v-col>
       <v-col cols="12">
         <v-card>
-          <v-row>
+          <!-- <v-row>
             <transition name="fadeOne">
               <div v-show="show" class="container">
                 <p class="One">Fresher Welcome (2019-2020)</p>
                 <p class="Two"></p>
               </div>
             </transition>
-            <!-- <transition name="fadeTwo">
-              <div v-show="show" class="container">
-                <p class="Two">2019-2020</p>
-              </div>
-            </transition>-->
-          </v-row>
+
+          
+          </v-row>-->
+
           <v-img src="@/assets/gp.jpg"></v-img>
           <v-card-actions>
             <v-btn outlined to="/qrScan">Vote Now</v-btn>
@@ -61,7 +64,7 @@ p {
 
 ._title {
   text-align: center;
-  font-size: 30px;
+  font-size: 18px;
   color: #00718e;
 }
 

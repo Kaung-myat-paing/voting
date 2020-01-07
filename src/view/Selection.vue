@@ -19,12 +19,16 @@
                 <v-card @click="SelectionDetail(item)">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
-                      <v-card-title class="title" v-text="item.name"></v-card-title>
+                      <v-card-title class="subtitle-1 font-weight-bold" v-text="item.name"></v-card-title>
                       <v-card-subtitle v-text="item.class"></v-card-subtitle>
                     </div>
 
                     <v-avatar class="ma-3" size="125" tile>
-                      <!-- <v-img :src="boys[i].image"></v-img> -->
+                      <template v-for="(photo, idx) in item.photos">
+                        <template v-if="idx==0">
+                          <v-img :src="photo.url" :key="photo.url"></v-img>
+                        </template>
+                      </template>
                     </v-avatar>
                   </div>
                 </v-card>
@@ -37,11 +41,15 @@
                 <v-card @click="SelectionDetail(item)">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
-                      <v-card-title class="title" v-text="item.name"></v-card-title>
+                      <v-card-title class="subtitle-1 font-weight-bold" v-text="item.name"></v-card-title>
                       <v-card-subtitle v-text="item.class"></v-card-subtitle>
                     </div>
                     <v-avatar class="ma-3" size="125" tile>
-                      <!-- <v-img :src="girls[i].image"></v-img> -->
+                      <template v-for="(photo, index) in item.photos">
+                        <template v-if="index==0">
+                          <v-img :src="photo.url" :key="photo.url"></v-img>
+                        </template>
+                      </template>
                     </v-avatar>
                   </div>
                 </v-card>
@@ -77,8 +85,14 @@ export default {
     maleList: [],
     femaleList: [],
     gender: ["Boys", "Girls"],
-    boys: [],
-    girls: []
+    boys: [
+      // { image: require("../assets/pp/boys/hrl.jpg") },
+      // { image: require("../assets/pp/boys/nlk.jpg") }
+    ],
+    girls: [
+      // { image: require("../assets/pp/girls/mmss.jpg") },
+      // { image: require("../assets/pp/girls/tas.jpg") }
+    ]
   }),
   mounted() {
     this.getSelectionList();

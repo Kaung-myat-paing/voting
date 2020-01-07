@@ -2,42 +2,22 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-tabs
-          v-model="tabs"
-          centered
-          slider-color="primary"
-          background-color="transparent"
-          fixed-tabs
-        >
-          <v-tab v-for="i in 2" :key="i">{{ i }}</v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tabs">
-          <v-tab-item>
-            <p class="decode-result">
-              Last result:
-              <b>{{ result }}</b>
-            </p>
-            <qrcode-capture @decode="onDecode" />
-          </v-tab-item>
-          <v-tab-item>
-            <div>
-              <p class="decode-result">
-                Last result:
-                <b>{{ result }}</b>
-              </p>
-              <qrcode-stream :camera="camera" @decode="onDecode"/>
-            </div>
-          </v-tab-item>
-        </v-tabs-items>
+        <div>
+          <p class="decode-result">
+            Last result:
+            <b>{{ result }}</b>
+          </p>
+          <qrcode-stream :camera="camera" @decode="onDecode" />
+        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import { QrcodeStream, QrcodeCapture } from "vue-qrcode-reader";
+import { QrcodeStream } from "vue-qrcode-reader";
 import { qrCheckService } from "../services/qrCheck-service";
 export default {
-  components: { QrcodeStream, QrcodeCapture },
+  components: { QrcodeStream },
   data() {
     return {
       tabs: null,

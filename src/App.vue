@@ -29,9 +29,12 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar app color="white" :elevate-on-scroll="true">
+    <v-app-bar app color="white" :elevate-on-scroll="true" dense>
       <v-app-bar-nav-icon @click="openMenu=!openMenu"></v-app-bar-nav-icon>
-      <v-toolbar-title></v-toolbar-title>
+      <v-toolbar-title>
+        <div class="_title body-1">Fresher Welcome (2019-2020)</div>
+      </v-toolbar-title>
+
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-content>
@@ -63,3 +66,8 @@ export default {
   })
 };
 </script>
+<style scoped>
+._title {
+  color: #00718e;
+}
+</style>

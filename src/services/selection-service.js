@@ -7,7 +7,7 @@ export const selectionServices = {
 };
 
 function getSelections() {
-    return axios.get('/selections')
+    return axios.get('/selections?id=all')
 }
 
 function saveSelection(selection) {
@@ -15,5 +15,5 @@ function saveSelection(selection) {
 }
 
 function getSelectionDetail(id) {
-    return axios.get('/selections/'+id)
+    return axios.get('/selections?id='+id)
 }
