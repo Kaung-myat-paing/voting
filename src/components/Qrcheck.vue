@@ -3,10 +3,7 @@
     <v-row>
       <v-col>
         <div>
-          <p class="decode-result">
-            Last result:
-            <b>{{ result }}</b>
-          </p>
+          <p class="decode-result">Scan QR Code To Vote</p>
           <qrcode-stream :camera="camera" @decode="onDecode" />
         </div>
       </v-col>

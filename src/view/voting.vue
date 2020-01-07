@@ -34,7 +34,11 @@
                       <v-list-item-subtitle>{{ selection.class }}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-avatar>
-                      <v-img src="@/assets/lisa.jpg"></v-img>
+                      <template v-for="(photo, idx) in selection.photos">
+                        <template v-if="idx==0">
+                          <v-img :src="photo.url" :key="photo.url"></v-img>
+                        </template>
+                      </template>
                     </v-list-item-avatar>
                   </template>
                 </v-list-item>
@@ -190,7 +194,7 @@ export default {
         // eslint-disable-next-line
         console.log(res);
         this.$router.push("/");
-        alert(res.data)
+        alert(res.data);
       });
     },
     reVote: function() {
