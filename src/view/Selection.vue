@@ -24,7 +24,7 @@
                     </div>
 
                     <v-avatar class="ma-3" size="125" tile>
-                      <v-img :src="boys[i].image"></v-img>
+                      <!-- <v-img :src="boys[i].image"></v-img> -->
                     </v-avatar>
                   </div>
                 </v-card>
@@ -41,7 +41,7 @@
                       <v-card-subtitle v-text="item.class"></v-card-subtitle>
                     </div>
                     <v-avatar class="ma-3" size="125" tile>
-                      <v-img :src="girls[i].image"></v-img>
+                      <!-- <v-img :src="girls[i].image"></v-img> -->
                     </v-avatar>
                   </div>
                 </v-card>
@@ -69,6 +69,7 @@
 </template>
 <script>
 import { selectionServices } from "../services/selection-service";
+// import { imageServices } from "../services/image-services";
 export default {
   data: () => ({
     tabs: null,
@@ -76,16 +77,8 @@ export default {
     maleList: [],
     femaleList: [],
     gender: ["Boys", "Girls"],
-    boys: [
-      { image: require("../assets/pp/boys/hrl.jpg") },
-      { image: require("../assets/pp/boys/nlk.jpg") },
-      { image: require("../assets/pp/boys/sl.jpg") }
-    ],
-    girls: [
-      { image: require("../assets/pp/girls/mmss.jpg") },
-      { image: require("../assets/pp/girls/than.jpg") },
-      { image: require("../assets/pp/girls/ntep.jpg") }
-    ]
+    boys: [],
+    girls: []
   }),
   mounted() {
     this.getSelectionList();
@@ -97,6 +90,15 @@ export default {
         .then(res => {
           this.selectionList = res.data;
         })
+        // .then(() => {
+        //   imageServices
+        //     .getImageBySelId(sele.id)
+        //     .then(res => {
+        //       sele.images = res.data;
+        //     })
+        //     .catch(err => {});
+        //   this.selectionList.map(sele => {});
+        // })
         .then(() => {
           this.maleList = this.selectionList.filter(
             selection => selection.sex === "male"

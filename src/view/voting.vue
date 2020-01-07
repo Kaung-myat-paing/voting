@@ -17,7 +17,7 @@
         <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
           <v-card class="mb-12" elevation="0">
             <v-card-title>{{ voteFeature[n-1] }}</v-card-title>
-            <v-card-content>
+            <v-card-text>
               <v-list-item-group v-model="selectedVote">
                 <v-list-item
                   v-for="selection in selectionList"
@@ -39,7 +39,7 @@
                   </template>
                 </v-list-item>
               </v-list-item-group>
-            </v-card-content>
+            </v-card-text>
           </v-card>
 
           <v-btn
@@ -75,6 +75,7 @@
 <script>
 import { selectionServices } from "../services/selection-service";
 import { voteService } from "../services/vote-service";
+import { qrCheckService } from "../services/qrCheck-service";
 
 export default {
   data: () => ({
@@ -94,10 +95,38 @@ export default {
     dialog: false,
     qrDetail: []
   }),
+
+  beforeCreate() {
+    if (typeof Storage !== "undefined") var qr = localStorage.getItem("qr");
+    var isAuthenticated = false;
+    if (qr) {
+      var ip = {
+        ip: qr
+      };
+      qrCheckService
+        .qrCheck(ip)
+        .then(res => {
+          isAuthenticated = res.data;
+          if (isAuthenticated === true) {
+            this.qrDetail = qr;
+          } else {
+            this.$router.push("/");
+            localStorage.clear();
+          }
+        })
+        .catch(err => {
+          // eslint-disable-next-line
+          console.log(err);
+        });
+    } else {
+      this.$router.push("/");
+    }
+    // eslint-disable-next-line
+    console.log("qr", qr);
+  },
   mounted() {
     this.getSelectionList();
-    this.qrDetail = JSON.parse(localStorage.getItem("qr"));
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     console.log(this.qrDetail);
   },
   watch: {
@@ -149,17 +178,19 @@ export default {
     saveVote() {
       this.dialog = false;
       let _vote = {
-        ip: "1",
+        ip: this.qrDetail,
         vote_details: [
-          { selection_id: this.votes.king.id, choices: "king" },
-          { selection_id: this.votes.queen.id, choices: "queen" },
-          { selection_id: this.votes.popular.id, choices: "popular" },
-          { selection_id: this.votes.innocent.id, choices: "innocent" }
+          { selection_id: this.votes.king.id, choices: "k" },
+          { selection_id: this.votes.queen.id, choices: "q" },
+          { selection_id: this.votes.popular.id, choices: "p" },
+          { selection_id: this.votes.innocent.id, choices: "i" }
         ]
       };
       voteService.saveVote(_vote).then(res => {
         // eslint-disable-next-line
         console.log(res);
+        this.$router.push("/");
+        alert(res.data)
       });
     },
     reVote: function() {

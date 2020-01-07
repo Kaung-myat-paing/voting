@@ -25,7 +25,7 @@
                 Last result:
                 <b>{{ result }}</b>
               </p>
-              <qrcode-stream :camera="camera" @decode="onDecode" />
+              <qrcode-stream :camera="camera" @decode="onDecode"/>
             </div>
           </v-tab-item>
         </v-tabs-items>
@@ -81,12 +81,13 @@ export default {
           // eslint-disable-next-line
           console.log("done", res.data);
           this.isAuthenticated = res.data;
-          if (this.isAuthenticated == true) {
+          if (this.isAuthenticated === true) {
             if (typeof Storage !== "undefined")
               localStorage.setItem("qr", content);
             this.$router.push("/voting");
-          }else {
-            alert(res.data)
+          } else {
+            this.$router.push("/");
+            alert(res.data);
           }
         })
         .catch(err => {
